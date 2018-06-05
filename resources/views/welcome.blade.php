@@ -63,10 +63,11 @@
                 margin-bottom: 30px;
             }
         </style>
-        <script src="js/app.js"></script>
     </head>
     <body>
+        <div id="container"></div>
         <div class="flex-center position-ref full-height">
+        
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -92,5 +93,7 @@
                 </div>
             </div>
         </div>
+ 
+        <script src="js/app.js"></script>
     </body>
 </html>
