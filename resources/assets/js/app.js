@@ -10,13 +10,25 @@ import axios from "axios";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
-// axios.get('/api/user').then(data => console.log(data)).catch(e => console.log(e));
+class App extends Component {
 
-const App = () => (
-    <div>
-        Hello world!
-        <button onClick={() => alert("hello world!")}>Click me!</button>
-        <button onClick={() => console.log("hello world!")}>Click me!</button>
-    </div>
-);
+    componentDidMount() {
+        axios.get('/api/user').then(data => console.log(data)).catch(e => console.log(e));
+    }
+
+    render() {
+        return (
+            <div>
+                Hello world!
+                <button onClick={() => alert("hello world!")}>Click me!</button>
+                <button onClick={() => console.log("hello world!")}>
+                    Click me!
+                </button>
+            </div>
+        );
+    }
+}
+
+
+
 ReactDOM.render(<App />, document.getElementById("container"));
