@@ -21,7 +21,7 @@ class App extends Component {
             <div>
                 Hello world!
                 <button onClick={() => alert("hello world!")}>Click me!</button>
-                <button onClick={() => console.log("hello world!")}>
+                <button className="btn btn-primary" onClick={() => console.log("hello world!")}>
                     Click me!
                 </button>
             </div>
