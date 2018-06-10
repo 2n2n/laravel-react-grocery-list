@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Ingredient;
+use App\Menu;
 
-class IngredientController extends Controller
+class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class IngredientController extends Controller
      */
     public function index()
     {
-        return Ingredient::all()->toJson();
+        return Menu::all()->toJson();
     }
 
     /**
@@ -35,11 +35,11 @@ class IngredientController extends Controller
      */
     public function store(Request $request)
     {
-        $ingredient = new Ingredient();
-        $ingredient->name = $request->name;
-        $ingredient->save();
+        $menu = new Menu();
+        $menu->name = $request->name;
+        $menu->save();
 
-        return ['response' => true];
+        return ['response' => true, 'data' => $menu];
     }
 
     /**
@@ -51,9 +51,7 @@ class IngredientController extends Controller
      */
     public function show($id)
     {
-        $ingredient = Ingredient::find($id);
-
-        return $ingredient;
+        return Menu::find($id);
     }
 
     /**
@@ -77,12 +75,11 @@ class IngredientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $ingredient = Ingredient::find($id);
+        $menu = Menu::find($id);
+        $menu->name = $request->name;
+        $menu->save();
 
-        $ingredient->name = $request->name;
-        $ingredient->save();
-
-        return ['response' => true];
+        return ['response' => true, 'data' => $menu];
     }
 
     /**
@@ -94,12 +91,13 @@ class IngredientController extends Controller
      */
     public function destroy($id)
     {
-        $ingredient = Ingredient::find($id);
+        $menu = Menu::find($id);
 
-        if (is_null($ingredient)) {
-            return ['response' => false, 'data' => 'Ingredient does not exist.'];
+        if (is_null($menu)) {
+            return ['response' => 'false', 'data' => 'Menu item does not exist.'];
         }
-        $ingredient->delete();
+
+        $menu->delete();
 
         return ['response' => true];
     }

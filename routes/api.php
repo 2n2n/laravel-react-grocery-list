@@ -16,3 +16,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('ingredients', 'IngredientController');
+Route::apiResource('menus', 'MenuController');
+
+Route::get('menu/{menu_id}/ingredient', 'MenuIngredientController@index');
+Route::post('menu/{menu_id}/ingredient', 'MenuIngredientController@add');
+Route::delete('menu/{menu_id}/ingredient/{ingredient_id}', 'MenuIngredientController@delete');
