@@ -7,6 +7,8 @@ class GroceryListIngredient extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {showDeleteControl: false};
     }
     
 
@@ -18,7 +20,13 @@ class GroceryListIngredient extends Component {
 
     render() {
         const { name } = this.props;
-        return <li onClick={() => this.onDelete()}>{name}</li>;
+        return (<li
+            onMouseEnter={() => this.setState({ showDeleteControl: true })}
+            onMouseLeave={() => this.setState({ showDeleteControl: false })}
+        >
+            {name} 
+            { this.state.showDeleteControl ? <button className="btn btn-danger" onClick={() => this.onDelete()}>-</button> : "" }
+        </li>);
     }
 }
 
