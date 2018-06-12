@@ -4,7 +4,8 @@ import Ingredient from './Ingredient';
 
 
 import * as dummyDataService from '../services/dummyDataService';
-
+import * as menuIngredientService from '../services/menuIngredientService';
+import * as menuService from '../services/menuService';
 
 const AddIngredient = ({onAddIngredient, onChangeIngredientName}) => (
                             <div className="row" style={{paddingBottom: "15px"}}>
@@ -18,30 +19,26 @@ const AddIngredient = ({onAddIngredient, onChangeIngredientName}) => (
                             </div>);
 
 class GroceryMenu extends Component {
+
     constructor(props) {
         super(props);
-        this.state = { menuNameModify: false, menuName: "", ingredientName: "", addIngredient:false };
-
-        this.onToggleMenuName = this.onToggleMenuName.bind(this);
-        this.onChangeMenuName = this.onChangeMenuName.bind(this);
-        this.onSaveGroceryMenu = this.onSaveGroceryMenu.bind(this);
-        this.onDeleteGroceryMenu = this.onDeleteGroceryMenu.bind(this);
-        this.onAddIngredient = this.onAddIngredient.bind(this);
-
-
-
-        this.onAddIngredientToGroceryList = this.onAddIngredientToGroceryList.bind(this);
-
-        this.onRemoveIngredientFromGroceryMenu = this.onRemoveIngredientFromGroceryMenu.bind(this);
+        this.state = {
+            ingredients: [],
+            menuNameModify: false,
+            menuName: "",
+            ingredientName: "",
+            addIngredient: false
+        };
     }
 
     componentDidMount() {
         console.log("component mounted...");
-
-        const name = this.props.groceryMenu.name;
-        this.setState({
-            menuName: name
-        });
+        menuIngredientService.fetchMenuIngredient(this.props.menu.id)
+            .then((ingredients) => {
+                this.setState({
+                    ingredients: ingredients
+                });
+            });
     }
     
     onToggleMenuName(e) {
@@ -71,8 +68,9 @@ class GroceryMenu extends Component {
     }
 
     onDeleteGroceryMenu(e) {
-        dummyDataService.deleteGroceryMenu(this.props.groceryMenu);
-        this.props.onDeleteGroceryMenu();
+        menuService.remove(this.props.menu.id)
+            .then((data) => this.props.onDelete(data) )
+        
     }
 
     onAddIngredient(e) {
@@ -95,7 +93,6 @@ class GroceryMenu extends Component {
     }
 
     render() {
-        const { name, ingredients } = this.props.groceryMenu;
 
         const renderMenuName = this.state.menuNameModify ? (
             <form onSubmit={this.onSaveGroceryMenu}>
@@ -108,14 +105,15 @@ class GroceryMenu extends Component {
                 />
             </form>
         ) : (
-            <h5 class="card-title" onClick={this.onToggleMenuName}>{name}</h5>
+            <h5 className="card-title" onClick={this.onToggleMenuName}>{name}</h5>
         );
 
-        const renderIngredients = ingredients.map(x => 
+        
+        const renderIngredients = this.state.ingredients.map( (ingredient) => 
             <Ingredient 
-                key={x.id} 
-                item={x} 
-                groceryMenuId={this.props.groceryMenu.id}
+                key={ ingredient.id } 
+                ingredient = { ingredient } 
+                groceryMenuId={ this.props.menu.id }
                 onAddIngredientToGroceryList={this.onAddIngredientToGroceryList} 
                 onRemoveIngredientFromGroceryMenu={this.onRemoveIngredientFromGroceryMenu}
             />
@@ -130,9 +128,9 @@ class GroceryMenu extends Component {
 
         return (
             <div className="col-md-4">
-                <div class="card" style={{ width: "18rem" }}>
-                    <div class="card-body">
-                        {renderMenuName}
+                <div className="card" style={{ width: "18rem" }}>
+                    <div className="card-body">
+                        { this.props.menu.name }
 
                         <div className="row">
                             <ul>{renderIngredients}</ul>
@@ -149,7 +147,7 @@ class GroceryMenu extends Component {
                                 }>
                                     Add ingredient
                                 </button>{" "}
-                                <button className="btn btn-danger" onClick={this.onDeleteGroceryMenu}>
+                                <button className="btn btn-danger" onClick={this.onDeleteGroceryMenu.bind(this)}>
                                     Delete
                                 </button>
                             </div>

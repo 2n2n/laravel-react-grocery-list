@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import axios from "axios";
 import FormGroceryMenuIngredients from "./FormGroceryMenuIngredients";
 
 import * as dummyDataService from "../services/dummyDataService";
 import _ from "lodash";
 import * as helper from "../helpers/helper";
+import * as menuService from '../services/menuService';
 
 class FormAddNewGroceryMenu extends Component {
     constructor(props) {
@@ -17,11 +19,10 @@ class FormAddNewGroceryMenu extends Component {
 
     onSaveNewGroceryMenu(e) {
         e.preventDefault();
-        const result = dummyDataService.addNewGroceryMenu({
-            name: this.state.groceryMenuName,
-            ingredients: this.state.ingredients
-        });
-        this.props.onSaveNewGroceryMenu(result);
+        menuService.save(this.state.groceryMenuName)
+            .then((data) => {
+                this.props.onSaveNewGroceryMenu(data.data)
+            });
     }
 
     onAddIngredientField(e) {

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import * as groceryListService from "../services/groceryListService";
 import * as dummyDataService from "../services/dummyDataService";
+import * as ingredientService from '../services/ingredientService';
 
 class Ingredient extends Component {
     constructor(props) {
@@ -25,9 +26,8 @@ class Ingredient extends Component {
 
     //#region Component Lifecycles
     componentDidMount() {
-        const { name } = this.props.item;
         this.setState({
-            ingredientName: name
+            ingredientName: this.props.ingredient.name
         });
     }
     //#endregion
@@ -45,7 +45,7 @@ class Ingredient extends Component {
     }
 
     onAddIngredientToGroceryList() {
-        groceryListService.addGroceryItem(this.props.item);
+        groceryListService.addGroceryItem(this.props.ingredient.name);
 
         this.props.onAddIngredientToGroceryList();
     }
@@ -60,14 +60,13 @@ class Ingredient extends Component {
     }
 
     render() {
-        const { name } = this.props.item;
         const renderIngredientDetails = (
             <li
                 onMouseEnter={this.onHoverIngredient}
                 onMouseLeave={this.onLeaveIngredient}                
             >
                 <span onClick={() => this.setState({ showUpdateIngredient: true })}>
-                    {name}                
+                    { this.props.ingredient.name }                
                 </span>
                 {this.state.showControls
                     ? [
@@ -95,7 +94,7 @@ class Ingredient extends Component {
                     e.preventDefault();
                     this.setState({ showUpdateIngredient: false });
 
-                    let updatedIngredient = this.props.item;
+                    let updatedIngredient = this.props.ingredient.name;
                     updatedIngredient.name = this.state.ingredientName;
 
                     dummyDataService.updateIngredient(updatedIngredient, this.props.groceryMenuId);

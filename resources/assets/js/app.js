@@ -9,107 +9,61 @@ import GroceryListIngredient from './components/GroceryListIngredient';
 import * as dummyDataService from "./services/dummyDataService";
 import * as groceryListService from './services/groceryListService';
 
+import * as menuService from './services/menuService';
 
 class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            groceryMenus: dummyDataService.getAllGroceryMenus(),
-            groceryLists: groceryListService.getAllGroceryList(),
+            menus: [],
+            groceryLists: [],
             showAddGroceryMenu: false
         };
 
-        this.onGroceryMenuChanged = this.onGroceryMenuChanged.bind(this);
-        this.onToggleAddGroceryMenu = this.onToggleAddGroceryMenu.bind(this);
         this.onSaveNewGroceryMenu = this.onSaveNewGroceryMenu.bind(this);
-        this.onRemoveCache = this.onRemoveCache.bind(this);
-        this.onDeleteGroceryMenu = this.onDeleteGroceryMenu.bind(this);
-        this.onAddIngredient = this.onAddIngredient.bind(this);
-
-        this.onDeleteGroceryItem = this.onDeleteGroceryItem.bind(this);
-
-        this.onAddIngredientToGroceryList = this.onAddIngredientToGroceryList.bind(this);
-
-        this.onRemoveIngredientFromGroceryMenu = this.onRemoveIngredientFromGroceryMenu.bind(this);
     }
 
     componentDidMount() {
-        // axios.get('/api/user').then(data => console.log(data)).catch(e => console.log(e));
+        menuService.fetchAll().then((data) => {
+            this.setState({
+                menus: data
+            });
+        })
+        
+
     }
 
-    onGroceryMenuChanged(data) {
+    onAddMenu() {
         this.setState({
-            groceryMenus: data
+            showAddGroceryMenu: true
         });
     }
-
-    onToggleAddGroceryMenu(e) {
-        this.setState({
-            showAddGroceryMenu: !this.state.showAddGroceryMenu
-        });
+    onDeleteMenu() {
+        menuService.fetchAll()
+            .then((menus) => this.setState({ menus: menus }) )
     }
-
     onSaveNewGroceryMenu(data) {
+        const menus = this.state.menus;
+        menus.push(data);
         this.setState({
-            groceryMenus: data
+            menus: menus
         });
 
-        this.onToggleAddGroceryMenu(null);
-    }
-
-    initializeState() {
-        this.setState({
-            groceryMenus: dummyDataService.getAllGroceryMenus(),
-            groceryLists: groceryListService.getAllGroceryList()
-        });
-    }
-
-    onRemoveCache(e) {
-        dummyDataService.deleteCache();
-        groceryListService.deleteCache();
-
-        this.initializeState();
-    }
-
-    onDeleteGroceryMenu() {
-        this.initializeState();
-    }
-
-    onAddIngredient(e) {
-        this.initializeState();
-    }
-
-    onAddIngredientToGroceryList() {
-        this.initializeState();
-    }
-
-    onDeleteGroceryItem() {
-        this.initializeState();
-    }
-
-    onRemoveIngredientFromGroceryMenu() {
-        this.initializeState();
     }
 
     render() {
-        console.log("rendering this component...");
-
-        const rendergroceryMenus = this.state.groceryMenus.map(groceryMenu => (
+        const menuComponents = this.state.menus.map(menu =>
             <GroceryMenu
-                key={groceryMenu.id}
-                groceryMenu={groceryMenu}
-                onGroceryMenuChanged={this.onGroceryMenuChanged}
-                onDeleteGroceryMenu={this.onDeleteGroceryMenu}
-                onAddIngredient={this.onAddIngredient}
-                onAddIngredientToGroceryList={this.onAddIngredientToGroceryList}
-                onRemoveIngredientFromGroceryMenu={this.onRemoveIngredientFromGroceryMenu}
+                key={menu.id}
+                menu={menu}
+                onDelete={ this.onDeleteMenu.bind(this) }
             />
-        ));
+        );
 
         const renderFormNewGroceryMenu = this.state.showAddGroceryMenu ? (
             <FormAddNewGroceryMenu
-                onSaveNewGroceryMenu={this.onSaveNewGroceryMenu}
+                onSaveNewGroceryMenu={ this.onSaveNewGroceryMenu }
             />
         ) : (
             ""
@@ -124,15 +78,9 @@ class App extends Component {
                             <div className="col-md-12">
                                 <button
                                     className="btn btn-primary"
-                                    onClick={this.onToggleAddGroceryMenu}
+                                    onClick={ this.onAddMenu.bind(this) }
                                 >
-                                    Add new Grocery Item
-                                </button>
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={this.onRemoveCache}
-                                >
-                                    Restore database seed
+                                    Add Menu
                                 </button>
                             </div>
                         </div>
@@ -145,7 +93,7 @@ class App extends Component {
                                     <div className="col-md-12">
                                         <h1>Grocery Menu</h1>
                                     </div>
-                                    {rendergroceryMenus}
+                                    {menuComponents}
                                 </div>
                             </div>
                             <div className="col-md-4">
@@ -154,7 +102,7 @@ class App extends Component {
                                 </div>
                                 <div className="row">
                                     <ul>
-                                        {this.state.groceryLists.map(x => 
+                                        {/* {this.state.groceryLists.map(x => 
                                             <GroceryListIngredient 
                                                 key={x.id} 
                                                 id={x.id} 
@@ -162,7 +110,7 @@ class App extends Component {
                                                 onDeleteGroceryItem={this.onDeleteGroceryItem}
                                             /> 
                                         )
-                                        }
+                                        } */}
                                     </ul>
                                 </div>
                             </div>
