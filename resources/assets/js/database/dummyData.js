@@ -1,4 +1,6 @@
-export let DATA_GROCERYLISTS = [
+import _ from 'lodash';
+
+export const DATA_GROCERYMENU = [
     {
         id: 1,
         name: "Pepperoni Pizza",
@@ -18,5 +20,17 @@ export let DATA_GROCERYLISTS = [
             { id: 3, name: "Bell Peppers" },
             { id: 4, name: "Cheese" }
         ]
+    }
+];
+
+
+export const DATA_GROCERYLIST = [
+    {
+        id: _.uniqueId(),
+        name: "Pepperoni"
+    },
+    {
+        id: _.uniqueId(),
+        name: "Oil"
     }
 ];
