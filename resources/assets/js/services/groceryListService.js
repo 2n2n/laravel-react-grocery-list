@@ -10,7 +10,7 @@ const GROCERY_LIST = "GROCERY_LIST";
 
 export function addGroceryItem(ingredientId) {
     
-    axios.post('/api/grocery-lists/', {
+    return axios.post('/api/grocery-lists/', {
         ingredient_id: ingredientId
     })
         .then((response) => response.data)
@@ -44,18 +44,23 @@ export function deleteGroceryItem(id) {
 
 
 export function getAllGroceryList() {
-    let data = undefined;
+    // let data = undefined;
 
-    if (!cacheService.cacheExists(GROCERY_LIST)) {
-        data = DATA_GROCERYLIST;
-        const jsonStringGroceryLists = helper.stringifyJson(data);
+    // if (!cacheService.cacheExists(GROCERY_LIST)) {
+    //     data = DATA_GROCERYLIST;
+    //     const jsonStringGroceryLists = helper.stringifyJson(data);
 
-        cacheService.setCache(GROCERY_LIST, jsonStringGroceryLists);
-    } else {
-        data = helper.deserializeJsonString(cacheService.getCache(GROCERY_LIST));
-    }
+    //     cacheService.setCache(GROCERY_LIST, jsonStringGroceryLists);
+    // } else {
+    //     data = helper.deserializeJsonString(cacheService.getCache(GROCERY_LIST));
+    // }
 
-    return data;
+    // return data;
+
+    return axios.get('/api/grocery-lists/')
+        .then((response) => response.data)
+        .catch((e) => console.log('groceryListservice error', e.getMessage()));
+
 }
 
 

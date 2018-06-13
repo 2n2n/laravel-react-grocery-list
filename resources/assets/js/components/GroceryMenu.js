@@ -86,7 +86,6 @@ class GroceryMenu extends Component {
                             ingredients: data,
                             addIngredient: false
                         })
-                        console.log('testing', data);
                     });
             });
         
@@ -96,6 +95,7 @@ class GroceryMenu extends Component {
     }
 
     onAddIngredientToGroceryList() {
+        console.log(this, 'what is this');
         this.props.onAddIngredientToGroceryList();
     }
 
@@ -125,7 +125,7 @@ class GroceryMenu extends Component {
                 key={ ingredient.id } 
                 ingredient = { ingredient } 
                 groceryMenuId={ this.props.menu.id }
-                onAddIngredientToGroceryList={this.onAddIngredientToGroceryList} 
+                onAddIngredientToGroceryList={ this.onAddIngredientToGroceryList } 
                 onRemoveIngredientFromGroceryMenu={this.onRemoveIngredientFromGroceryMenu}
             />
         );
@@ -157,7 +157,7 @@ class GroceryMenu extends Component {
                                     })
                                 }>
                                     Add ingredient
-                                </button>{" "}
+                                </button>
                                 <button className="btn btn-danger" onClick={this.onDeleteGroceryMenu.bind(this)}>
                                     Delete
                                 </button>
