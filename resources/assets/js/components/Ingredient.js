@@ -45,9 +45,10 @@ class Ingredient extends Component {
     }
 
     onAddIngredientToGroceryList() {
-        groceryListService.addGroceryItem(this.props.ingredient.name);
+        groceryListService.addGroceryItem(this.props.ingredient.id)
+            .then(this.props.onAddIngredientToGroceryList);
 
-        this.props.onAddIngredientToGroceryList();
+        ;
     }
 
     onRemoveIngredientFromGroceryMenu() {

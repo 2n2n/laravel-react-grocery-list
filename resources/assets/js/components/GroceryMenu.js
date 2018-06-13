@@ -29,6 +29,8 @@ class GroceryMenu extends Component {
             ingredientName: "",
             addIngredient: false
         };
+
+        this.onAddIngredient = this.onAddIngredient.bind(this);
     }
 
     componentDidMount() {
@@ -75,13 +77,22 @@ class GroceryMenu extends Component {
 
     onAddIngredient(e) {
         e.preventDefault();
-
-        this.setState({
-            addIngredient: !this.state.addIngredient
-        });
+        console.log(this.props.menu.id)
+        menuIngredientService.addMenuIngredient(this.props.menu.id, this.state.ingredientName)
+            .then((data) => {
+                menuIngredientService.fetchMenuIngredient(this.props.menu.id)
+                    .then((data) => {
+                        this.setState({
+                            ingredients: data,
+                            addIngredient: false
+                        })
+                        console.log('testing', data);
+                    });
+            });
         
-        dummyDataService.addIngredient(this.state.ingredientName, this.props.groceryMenu.id);
-        this.props.onAddIngredient();
+        // dummyDataService.addIngredient(this.state.ingredientName, this.props.groceryMenu.id);
+        
+        // this.props.onAddIngredient();
     }
 
     onAddIngredientToGroceryList() {
@@ -121,7 +132,7 @@ class GroceryMenu extends Component {
 
         const renderAddNewIngredient = this.state.addIngredient ? 
             <AddIngredient 
-                onAddIngredient={this.onAddIngredient} 
+                onAddIngredient={ this.onAddIngredient } 
                 onChangeIngredientName={(val) => this.setState({ ingredientName: val })} 
             /> : 
             "";

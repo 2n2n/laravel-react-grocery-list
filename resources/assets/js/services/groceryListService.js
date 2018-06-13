@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { DATA_GROCERYLIST } from '../database/dummyData';
 import {ENABLE_CACHE} from '../helpers/enums';
 
@@ -7,24 +8,29 @@ import * as helper from '../helpers/helper';
 
 const GROCERY_LIST = "GROCERY_LIST";
 
-export function addGroceryItem(groceryItem) {
-
-    let data = undefined;
-
-    if (ENABLE_CACHE) {
-        groceryItem.id = helper.generateUniqueGUID();
-
-        data = helper.deserializeJsonString(cacheService.getCache(GROCERY_LIST));
-        data = data.concat([groceryItem]);
+export function addGroceryItem(ingredientId) {
     
-        const jsonStringGroceryLists = helper.stringifyJson(data);
-    
-        cacheService.setCache(GROCERY_LIST, jsonStringGroceryLists);            
-    } else {
-        //TODO: ajax calls here..
-    }
+    axios.post('/api/grocery-lists/', {
+        ingredient_id: ingredientId
+    })
+        .then((response) => response.data)
+        .catch((e) => console.log('groceryListservice error', e.getMessage()));
+    // let data = undefined;
 
-    return data;
+    // if (ENABLE_CACHE) {
+    //     groceryItem.id = helper.generateUniqueGUID();
+
+    //     data = helper.deserializeJsonString(cacheService.getCache(GROCERY_LIST));
+    //     data = data.concat([groceryItem]);
+    
+    //     const jsonStringGroceryLists = helper.stringifyJson(data);
+    
+    //     cacheService.setCache(GROCERY_LIST, jsonStringGroceryLists);            
+    // } else {
+        
+    // }
+
+    // return data;
 }
 
 export function deleteGroceryItem(id) {

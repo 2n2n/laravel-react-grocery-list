@@ -28,6 +28,16 @@ class MenuIngredientController extends Controller
         }
 
         $menu = Menu::find($menu_id);
+
+        $ingredientExistsOnMenu = $menu->ingredients()
+            ->where('name', 'LIKE', $request->name)
+            ->get()
+            ->count() > 0;
+
+        if ($ingredientExistsOnMenu) {
+            return ['response' => true, 'data' => 'ingredient already in the menu.'];
+        }
+
         $menu->ingredients()->attach($ingredient);
 
         return ['response' => true];
