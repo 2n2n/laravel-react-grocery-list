@@ -1,13 +1,9 @@
-import axios from "axios";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
 import GroceryMenu from "./components/GroceryMenu";
 import FormAddNewGroceryMenu from "./components/FormAddNewGroceryMenu";
-import GroceryListIngredient from './components/GroceryListIngredient';
 
-import * as dummyDataService from "./services/dummyDataService";
-import * as groceryListService from './services/groceryListService';
 
 import * as menuService from './services/menuService';
 

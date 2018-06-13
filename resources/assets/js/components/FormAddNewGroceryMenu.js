@@ -106,17 +106,6 @@ class FormAddNewGroceryMenu extends Component {
                             Save
                         </button>
                     </form>
-
-                    <div className="row">
-                        <div className="col-md-12" style={{paddingTop: "20px"}}>
-                            <button
-                                className="btn btn-primary btn-block"
-                                onClick={this.onAddIngredientField}
-                            >
-                                Add an ingredient
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         );
