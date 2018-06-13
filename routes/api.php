@@ -19,6 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResource('ingredients', 'IngredientController');
 Route::apiResource('menus', 'MenuController');
+Route::apiResource('grocery-lists', 'GroceryController');
+
+Route::delete('grocery-lists-clear', 'GroceryController@clear');
 
 Route::get('menu/{menu_id}/ingredient', 'MenuIngredientController@index');
 Route::post('menu/{menu_id}/ingredient', 'MenuIngredientController@add');
