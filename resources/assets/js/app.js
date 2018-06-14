@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-
+import axios from 'axios';
 import GroceryMenu from "./components/GroceryMenu";
 import FormAddNewGroceryMenu from "./components/FormAddNewGroceryMenu";
 
@@ -21,7 +21,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.all(menuService.fetchAll(), groceryListService.getAllGroceryList())
+        axios.all(menuService.fetchAll(), groceryListService.getAllGroceryList()) 
             .then((menuData, groceryData) => {
             this.setState({
                 menus: menuData,
