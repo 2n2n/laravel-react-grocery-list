@@ -32,16 +32,21 @@ class GroceryMenu extends Component {
 
         this.onAddIngredient = this.onAddIngredient.bind(this);
         this.onRemoveIngredientFromGroceryMenu = this.onRemoveIngredientFromGroceryMenu.bind(this);
+        this.onChangeMenuName = this.onChangeMenuName.bind(this);
+        this.onToggleMenuName = this.onToggleMenuName.bind(this);
     }
 
     componentDidMount() {
-        console.log("component mounted...");
         menuIngredientService.fetchMenuIngredient(this.props.menu.id)
             .then((ingredients) => {
                 this.setState({
                     ingredients: ingredients
                 });
             });
+
+        this.setState({
+            menuName: this.props.menu.name
+        });
     }
     
     onToggleMenuName(e) {
@@ -53,6 +58,7 @@ class GroceryMenu extends Component {
     }
 
     onChangeMenuName(e) {
+        e.preventDefault();
         const value = e.target.value;
 
         this.setState({
@@ -78,7 +84,6 @@ class GroceryMenu extends Component {
 
     onAddIngredient(e) {
         e.preventDefault();
-        console.log(this.props.menu.id)
         menuIngredientService.addMenuIngredient(this.props.menu.id, this.state.ingredientName)
             .then((data) => {
                 menuIngredientService.fetchMenuIngredient(this.props.menu.id)
@@ -90,9 +95,6 @@ class GroceryMenu extends Component {
                     });
             });
         
-        // dummyDataService.addIngredient(this.state.ingredientName, this.props.groceryMenu.id);
-        
-        // this.props.onAddIngredient();
     }
 
     onAddIngredientToGroceryList() {
@@ -118,7 +120,9 @@ class GroceryMenu extends Component {
                 />
             </form>
         ) : (
-            <h5 className="card-title" onClick={this.onToggleMenuName}>{name}</h5>
+            <div>
+                <i class="fas fa-utensils"></i> <span style={{fontSize: "20px"}} className="card-title" onClick={this.onToggleMenuName}>{this.state.menuName}</span>
+            </div>
         );
 
         
@@ -140,17 +144,16 @@ class GroceryMenu extends Component {
             "";
 
         return (
-            <div className="col-md-4">
+            <div className="col-md-4" style={{marginBottom: "20px"}}>
                 <div className="card" style={{ width: "18rem" }}>
                     <div className="card-body">
-                        { this.props.menu.name }
+                        {renderMenuName}
+                    </div>
 
-                        <div className="row">
-                            <ul>{renderIngredients}</ul>
-                        </div>
+                    <ul className="list-group list-group-flush">{renderIngredients}</ul>
 
+                    <div className="card-body">
                         {renderAddNewIngredient}
-
                         <div className="row">
                             <div className="col-md-12">
                                 <button className="btn btn-primary" onClick={() => 
@@ -164,8 +167,9 @@ class GroceryMenu extends Component {
                                     Delete
                                 </button>
                             </div>
-                        </div>
+                        </div>                    
                     </div>
+
                 </div>
             </div>
         );

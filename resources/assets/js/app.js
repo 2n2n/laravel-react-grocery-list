@@ -19,7 +19,6 @@ class App extends Component {
 
         this.onSaveNewGroceryMenu = this.onSaveNewGroceryMenu.bind(this);
         this.reloadGroceryList = this.reloadGroceryList.bind(this);
-        // this.reloadMenuIngredients = this.reloadMenuIngredients.bind(this);
     }
 
     componentDidMount() {
@@ -30,14 +29,16 @@ class App extends Component {
                     groceryLists: groceryLists
                 })
             }));
-        
+    }
 
+    togglAddForm() {
+        this.setState({
+            showAddGroceryMenu: !this.state.showAddGroceryMenu
+        });
     }
 
     onAddMenu() {
-        this.setState({
-            showAddGroceryMenu: true
-        });
+        this.togglAddForm();
     }
     onDeleteMenu() {
         menuService.fetchAll()
@@ -45,9 +46,10 @@ class App extends Component {
     }
     onSaveNewGroceryMenu(data) {
         const menus = this.state.menus;
-        menus.push(data);
+
+        this.togglAddForm();
         this.setState({
-            menus: menus
+            menus: menus.concat([data])
         });
 
     }
