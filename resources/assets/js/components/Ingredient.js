@@ -63,10 +63,11 @@ class Ingredient extends Component {
         const renderIngredientDetails = (
             <li
                 onMouseEnter={this.onHoverIngredient}
-                onMouseLeave={this.onLeaveIngredient}                
+                onMouseLeave={this.onLeaveIngredient}    
+                className="list-group-item"            
             >
                 <span onClick={() => this.setState({ showUpdateIngredient: true })}>
-                    { this.props.ingredient.name }                
+                    <i class="fas fa-stroopwafel"></i> { this.props.ingredient.name }
                 </span>
                 {this.state.showControls
                     ? [
@@ -75,7 +76,7 @@ class Ingredient extends Component {
                             title="add to cart"
                               onClick={this.onAddIngredientToGroceryList}
                           >
-                              +
+                              <i class="fas fa-cart-plus"></i>
                           </button>,
                           "  ",
                           <button
@@ -83,7 +84,7 @@ class Ingredient extends Component {
                               title="remove ingredient"
                               onClick={this.onRemoveIngredientFromGroceryMenu}
                           >
-                              -
+                              <i class="fas fa-minus-circle"></i>
                           </button>
                       ]
                     : ""}
