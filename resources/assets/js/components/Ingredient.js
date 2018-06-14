@@ -46,7 +46,8 @@ class Ingredient extends Component {
 
     onAddIngredientToGroceryList() {
         groceryListService.addGroceryItem(this.props.ingredient.id)
-            .then( this.props.onAddIngredientToGroceryList );
+            .then(this.props.onAddIngredientToGroceryList);
+        
     }
 
     onRemoveIngredientFromGroceryMenu() {
@@ -70,7 +71,8 @@ class Ingredient extends Component {
                 {this.state.showControls
                     ? [
                           <button
-                              className="btn btn-primary"
+                            className="btn btn-primary"
+                            title="add to cart"
                               onClick={this.onAddIngredientToGroceryList}
                           >
                               +
@@ -78,6 +80,7 @@ class Ingredient extends Component {
                           "  ",
                           <button
                               className="btn btn-danger"
+                              title="remove ingredient"
                               onClick={this.onRemoveIngredientFromGroceryMenu}
                           >
                               -

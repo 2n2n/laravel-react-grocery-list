@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import * as groceryListService from '../services/groceryListService';
+import * as groceryListService from "../services/groceryListService";
 
 
 class GroceryListIngredient extends Component {
@@ -12,20 +12,21 @@ class GroceryListIngredient extends Component {
     }
     
 
-    onDelete() {
-        groceryListService.deleteGroceryItem(this.props.id);
+    onDelete(e, ingredient) {
+        console.log('wawa');
+        e.preventDefault();
 
-        this.props.onDeleteGroceryItem();
+        groceryListService.deleteGroceryItem(ingredient.id)
+            .then((data) => this.props.onDeleteGroceryItem(data));
     }
 
     render() {
-        const { name } = this.props;
         return (<li
             onMouseEnter={() => this.setState({ showDeleteControl: true })}
             onMouseLeave={() => this.setState({ showDeleteControl: false })}
         >
-            {name} 
-            { this.state.showDeleteControl ? <button className="btn btn-danger" onClick={() => this.onDelete()}>-</button> : "" }
+            {this.props.ingredient.name} 
+            {this.state.showDeleteControl ? <button className="btn btn-danger" onClick={(e) => this.onDelete(e, this.props.ingredient)}>-</button> : "" }
         </li>);
     }
 }

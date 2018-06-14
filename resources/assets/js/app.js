@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import axios from 'axios';
 import GroceryMenu from "./components/GroceryMenu";
 import FormAddNewGroceryMenu from "./components/FormAddNewGroceryMenu";
-
+import GroceryListIngredient from "./components/GroceryListIngredient";
 import * as groceryListService from "./services/groceryListService";
 import * as menuService from './services/menuService';
 
@@ -18,16 +18,17 @@ class App extends Component {
         };
 
         this.onSaveNewGroceryMenu = this.onSaveNewGroceryMenu.bind(this);
+        this.reloadGroceryList = this.reloadGroceryList.bind(this);
     }
 
     componentDidMount() {
-        axios.all(menuService.fetchAll(), groceryListService.getAllGroceryList()) 
-            .then((menuData, groceryData) => {
-            this.setState({
-                menus: menuData,
-                groceryLists: groceryData
-            });
-        })
+        axios.all([menuService.fetchAll(), groceryListService.getAllGroceryList()]) 
+            .then(axios.spread((menuData, groceryLists) => { 
+                this.setState({
+                    menus: menuData,
+                    groceryLists: groceryLists
+                })
+            }));
         
 
     }
@@ -49,13 +50,19 @@ class App extends Component {
         });
 
     }
+    
+    reloadGroceryList() {
+        groceryListService.getAllGroceryList()
+            .then(groceryListData => this.setState({ groceryLists: groceryListData }));
+    }
 
     render() {
         const menuComponents = this.state.menus.map(menu =>
             <GroceryMenu
                 key={menu.id}
                 menu={menu}
-                onDelete={ this.onDeleteMenu.bind(this) }
+                onDelete={this.onDeleteMenu.bind(this)}
+                onAddIngredientToGroceryList={this.reloadGroceryList}
             />
         );
 
@@ -100,15 +107,14 @@ class App extends Component {
                                 </div>
                                 <div className="row">
                                     <ul>
-                                        {/* {this.state.groceryLists.map(x => 
+                                        {this.state.groceryLists.map(ingredient => 
                                             <GroceryListIngredient 
-                                                key={x.id} 
-                                                id={x.id} 
-                                                name={x.name} 
-                                                onDeleteGroceryItem={this.onDeleteGroceryItem}
+                                                key={ingredient.id} 
+                                                ingredient={ingredient}
+                                                onDeleteGroceryItem={this.reloadGroceryList}
                                             /> 
                                         )
-                                        } */}
+                                        }
                                     </ul>
                                 </div>
                             </div>

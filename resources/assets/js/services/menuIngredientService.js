@@ -13,3 +13,7 @@ export function addMenuIngredient(menuId, ingredientName) {
         .then((data) => data.data)
         .catch((e) => console.log('menuIngredientService Error: ', e.getMessage()));
 }
+
+export function removeMenuIngredient(menuId, ingredientId) {
+    
+}
