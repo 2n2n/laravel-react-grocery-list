@@ -89,31 +89,9 @@ class Ingredient extends Component {
             </li>
         );
 
-        const renderUpdateIngredient = (
-            <div className="row">
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    this.setState({ showUpdateIngredient: false });
-
-                    let updatedIngredient = this.props.ingredient.name;
-                    updatedIngredient.name = this.state.ingredientName;
-
-                    dummyDataService.updateIngredient(updatedIngredient, this.props.groceryMenuId);
-                }}>
-                    <input type="text" className="form-control" 
-                        value={this.state.ingredientName} 
-                        onChange={(e) => this.setState({
-                            ingredientName: e.target.value
-                        })} 
-                        autoFocus={true} 
-                    />
-                </form>
-            </div>
-        );
-
         return (
             <React.Fragment>
-                { this.state.showUpdateIngredient ? renderUpdateIngredient : renderIngredientDetails }
+                {renderIngredientDetails}
             </React.Fragment>
         );
     }
