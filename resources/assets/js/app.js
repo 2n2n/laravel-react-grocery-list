@@ -6,7 +6,7 @@ import FormAddNewGroceryMenu from "./components/FormAddNewGroceryMenu";
 import GroceryListIngredient from "./components/GroceryListIngredient";
 import * as groceryListService from "./services/groceryListService";
 import * as menuService from './services/menuService';
-
+import * as menuIngredientService from './services/menuIngredientService';
 class App extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +19,7 @@ class App extends Component {
 
         this.onSaveNewGroceryMenu = this.onSaveNewGroceryMenu.bind(this);
         this.reloadGroceryList = this.reloadGroceryList.bind(this);
+        // this.reloadMenuIngredients = this.reloadMenuIngredients.bind(this);
     }
 
     componentDidMount() {

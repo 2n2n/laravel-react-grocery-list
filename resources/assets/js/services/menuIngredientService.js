@@ -15,5 +15,7 @@ export function addMenuIngredient(menuId, ingredientName) {
 }
 
 export function removeMenuIngredient(menuId, ingredientId) {
-    
+    return axios.delete('/api/menu/' + menuId + '/ingredient/' + ingredientId)
+        .then((data) => data.data)
+        .catch( (e) => cosole.log('menuIngredientService Error: ', e.getMessage()) )
 }

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import * as groceryListService from "../services/groceryListService";
 import * as dummyDataService from "../services/dummyDataService";
-import * as ingredientService from '../services/ingredientService';
+import * as groceryListService from '../services/groceryListService';
+import * as menuIngredientService from '../services/menuIngredientService';
 
 class Ingredient extends Component {
     constructor(props) {
@@ -51,12 +51,11 @@ class Ingredient extends Component {
     }
 
     onRemoveIngredientFromGroceryMenu() {
-        dummyDataService.removeIngredient(
-            this.props.item.id,
-            this.props.groceryMenuId
-        );
-
-        this.props.onRemoveIngredientFromGroceryMenu();
+        
+        menuIngredientService.removeMenuIngredient(this.props.groceryMenuId, this.props.ingredient.id)
+            .then((data) => { 
+                this.props.onRemoveIngredientFromGroceryMenu();
+            });
     }
 
     render() {

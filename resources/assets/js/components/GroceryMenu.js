@@ -31,6 +31,7 @@ class GroceryMenu extends Component {
         };
 
         this.onAddIngredient = this.onAddIngredient.bind(this);
+        this.onRemoveIngredientFromGroceryMenu = this.onRemoveIngredientFromGroceryMenu.bind(this);
     }
 
     componentDidMount() {
@@ -100,7 +101,8 @@ class GroceryMenu extends Component {
     }
 
     onRemoveIngredientFromGroceryMenu() {
-        this.props.onRemoveIngredientFromGroceryMenu();
+        menuIngredientService.fetchMenuIngredient(this.props.menu.id)
+            .then((data) => this.setState({ ingredients: data }));
     }
 
     render() {
@@ -122,7 +124,7 @@ class GroceryMenu extends Component {
         
         const renderIngredients = this.state.ingredients.map( (ingredient) => 
             <Ingredient 
-                key={ ingredient.id } 
+                key={ingredient.id} 
                 ingredient = { ingredient } 
                 groceryMenuId={ this.props.menu.id }
                 onAddIngredientToGroceryList={ this.onAddIngredientToGroceryList.bind(this) } 
