@@ -160,10 +160,12 @@ class GroceryMenu extends Component {
                                     this.setState({
                                         addIngredient: !this.state.addIngredient
                                     })
-                                }>
+                                }
+                                style={{ marginRight: "5px" }}
+                                >
                                     Add ingredient
                                 </button>
-                                <button className="btn btn-danger" onClick={this.onDeleteGroceryMenu.bind(this)}>
+                                <button className="btn btn-danger" onClick={this.onDeleteGroceryMenu.bind(this)} style={{ marginLeft: "5px" }}>
                                     Delete
                                 </button>
                             </div>
