@@ -106,23 +106,6 @@ class GroceryMenu extends Component {
     }
 
     render() {
-
-        const renderMenuName = this.state.menuNameModify ? (
-            <form onSubmit={this.onSaveGroceryMenu}>
-                <input 
-                    type="text" 
-                    className="form-control"
-                    value={this.state.menuName}
-                    onChange={this.onChangeMenuName}
-                    autoFocus={true}
-                />
-            </form>
-        ) : (
-            <div>
-                <i class="fas fa-utensils"></i> <span style={{fontSize: "20px"}} className="card-title" onClick={this.onToggleMenuName}>{this.state.menuName}</span>
-            </div>
-        );
-
         
         const renderIngredients = this.state.ingredients.map( (ingredient) => 
             <Ingredient 
@@ -145,7 +128,10 @@ class GroceryMenu extends Component {
             <div className="col-md-4" style={{marginBottom: "20px"}}>
                 <div className="card" style={{ width: "18rem" }}>
                     <div className="card-body">
-                        {renderMenuName}
+                        <div>
+                            <i class="fas fa-utensils"></i> 
+                            <span style={{fontSize: "20px"}} className="card-title">{this.state.menuName}</span>
+                        </div>
                     </div>
 
                     <ul className="list-group list-group-flush">{renderIngredients}</ul>

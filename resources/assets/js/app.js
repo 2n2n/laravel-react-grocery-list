@@ -6,7 +6,6 @@ import FormAddNewGroceryMenu from "./components/FormAddNewGroceryMenu";
 import GroceryListIngredient from "./components/GroceryListIngredient";
 import * as groceryListService from "./services/groceryListService";
 import * as menuService from './services/menuService';
-import * as menuIngredientService from './services/menuIngredientService';
 
 
 class App extends Component {
@@ -86,9 +85,9 @@ class App extends Component {
             <div>
                 <main role="main">
                     <div className="starter-template">
-                        <div class="jumbotron">
-                            <h1 class="display-4">Grocery App</h1>
-                            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                        <div className="jumbotron">
+                            <h1 className="display-4">Grocery App</h1>
+                            <p className="lead">Awesome app using Laravel and ReactJS</p>
                         </div>
                         <div className="row div-add-menu">
                             <div className="col-md-12">

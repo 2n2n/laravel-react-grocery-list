@@ -22,7 +22,7 @@ class GroceryListIngredient extends Component {
 
     render() {
         const renderDeleteControl = this.state.showDeleteControl ? 
-            <button className="btn btn-danger" onClick={this.onDelete}>
+            <button className="btn btn-danger btn-sm" onClick={this.onDelete}>
                 <i class="fas fa-minus-circle"></i>
             </button> : 
             "";
