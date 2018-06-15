@@ -86,7 +86,10 @@ class App extends Component {
             <div>
                 <main role="main">
                     <div className="starter-template">
-                        <h1 className="text-center">Grocery App</h1>
+                        <div class="jumbotron">
+                            <h1 class="display-4">Grocery App</h1>
+                            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                        </div>
                         <div className="row div-add-menu">
                             <div className="col-md-12">
                                 <button
