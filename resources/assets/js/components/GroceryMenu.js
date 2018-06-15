@@ -36,14 +36,18 @@ class GroceryMenu extends Component {
         this.onToggleMenuName = this.onToggleMenuName.bind(this);
     }
 
-    componentDidMount() {
+    renderIngredientLists() {
         menuIngredientService.fetchMenuIngredient(this.props.menu.id)
             .then((ingredients) => {
                 this.setState({
                     ingredients: ingredients
                 });
             });
+    }
 
+    componentDidMount() {
+        this.renderIngredientLists();
+        
         this.setState({
             menuName: this.props.menu.name
         });
@@ -78,21 +82,15 @@ class GroceryMenu extends Component {
 
     onDeleteGroceryMenu(e) {
         menuService.remove(this.props.menu.id)
-            .then((data) => this.props.onDelete(data) )
-        
+            .then((data) => this.props.onDelete() );
     }
 
     onAddIngredient(e) {
         e.preventDefault();
         menuIngredientService.addMenuIngredient(this.props.menu.id, this.state.ingredientName)
             .then((data) => {
-                menuIngredientService.fetchMenuIngredient(this.props.menu.id)
-                    .then((data) => {
-                        this.setState({
-                            ingredients: data,
-                            addIngredient: false
-                        })
-                    });
+                this.renderIngredientLists();
+                this.setState({ addIngredient: false });
             });
         
     }
