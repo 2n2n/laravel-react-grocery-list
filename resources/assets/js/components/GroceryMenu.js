@@ -36,14 +36,18 @@ class GroceryMenu extends Component {
         this.onToggleMenuName = this.onToggleMenuName.bind(this);
     }
 
-    componentDidMount() {
+    renderIngredientLists() {
         menuIngredientService.fetchMenuIngredient(this.props.menu.id)
             .then((ingredients) => {
                 this.setState({
                     ingredients: ingredients
                 });
             });
+    }
 
+    componentDidMount() {
+        this.renderIngredientLists();
+        
         this.setState({
             menuName: this.props.menu.name
         });
@@ -78,21 +82,15 @@ class GroceryMenu extends Component {
 
     onDeleteGroceryMenu(e) {
         menuService.remove(this.props.menu.id)
-            .then((data) => this.props.onDelete(data) )
-        
+            .then((data) => this.props.onDelete() );
     }
 
     onAddIngredient(e) {
         e.preventDefault();
         menuIngredientService.addMenuIngredient(this.props.menu.id, this.state.ingredientName)
             .then((data) => {
-                menuIngredientService.fetchMenuIngredient(this.props.menu.id)
-                    .then((data) => {
-                        this.setState({
-                            ingredients: data,
-                            addIngredient: false
-                        })
-                    });
+                this.renderIngredientLists();
+                this.setState({ addIngredient: false });
             });
         
     }
@@ -108,23 +106,6 @@ class GroceryMenu extends Component {
     }
 
     render() {
-
-        const renderMenuName = this.state.menuNameModify ? (
-            <form onSubmit={this.onSaveGroceryMenu}>
-                <input 
-                    type="text" 
-                    className="form-control"
-                    value={this.state.menuName}
-                    onChange={this.onChangeMenuName}
-                    autoFocus={true}
-                />
-            </form>
-        ) : (
-            <div>
-                <i class="fas fa-utensils"></i> <span style={{fontSize: "20px"}} className="card-title" onClick={this.onToggleMenuName}>{this.state.menuName}</span>
-            </div>
-        );
-
         
         const renderIngredients = this.state.ingredients.map( (ingredient) => 
             <Ingredient 
@@ -147,7 +128,10 @@ class GroceryMenu extends Component {
             <div className="col-md-4" style={{marginBottom: "20px"}}>
                 <div className="card" style={{ width: "18rem" }}>
                     <div className="card-body">
-                        {renderMenuName}
+                        <div>
+                            <i class="fas fa-utensils"></i> 
+                            <span style={{fontSize: "20px"}} className="card-title">{this.state.menuName}</span>
+                        </div>
                     </div>
 
                     <ul className="list-group list-group-flush">{renderIngredients}</ul>
